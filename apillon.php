@@ -1,16 +1,9 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// Retrieve API Credentials from environment variables
-$apiKey = $_ENV['API_KEY'];
-$apiSecret = $_ENV['API_SECRET'];
-$authorization = $_ENV['AUTHORIZATION'];
-$bucketUuid = $_ENV['BUCKET_UUID'];
-
-
+// Define variables
+$apiKey = '';
+$apiSecret = '';
+$authorization = '';
+$bucketUuid = '';
 
 // Function to perform HTTP requests
 function toObject($array) {
