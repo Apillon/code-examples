@@ -83,7 +83,12 @@ function callAPI($method, $url, $data = false, $authorization) {
 }
 
 // Upload to bucket
-function uploadToBucket($fileData, $path = '') {
+function uploadToBucket(
+  $fileData, 
+  $path = '',
+  $wrapWithDirectory = false,
+  $directoryPath = ''
+) {
     global $authorization, $bucketUuid;
 
     $responseArr = [
@@ -157,8 +162,14 @@ function uploadToBucket($fileData, $path = '') {
             $uploadedFiles[] = $uploadResponse;
         }
 
-        // End the upload session (Assuming you have an endUploadSession function)
-        $endSession = endUploadSession($sessionUuid, $authorization, $bucketUuid);
+        // Note: Remove this call if you don't want to close session after each upload.
+        endUploadSession(
+            $sessionUuid,
+            $authorization,
+            $bucketUuid, 
+            $wrapWithDirectory,
+            $directoryPath
+        );
 
         $responseArr['status'] = 'success';
         $responseArr['message'] = 'Files uploaded successfully';
@@ -173,10 +184,19 @@ function uploadToBucket($fileData, $path = '') {
 }
 
 // End upload session
-function endUploadSession($sessionUuid, $authorization, $bucketUuid) {
+function endUploadSession(
+  $sessionUuid, 
+  $authorization,
+  $bucketUuid,
+  $wrapWithDirectory = false,
+  $directoryPath = ''
+) {
     $url = "https://api.apillon.io/storage/$bucketUuid/upload/$sessionUuid/end";
-    $data = ['directSync' => true];
-
+    $data = [
+        'wrapWithDirectory' => $wrapWithDirectory,
+        'directoryPath' => $directoryPath
+    ];
+    
     return callAPI('POST', $url, $data, $authorization);
 }
 

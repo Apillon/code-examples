@@ -4,8 +4,15 @@ include '../apillon.php';
 // Directory containing the files to be uploaded
 $dirPath = 'files';
 
-// Define a path in apillon
-$folderName = 'testdir';
+// Define a virtual path in apillon or leave it empty.
+$folderName = '';
+
+// It will define directoryPath in the end upload session to wrap file with directory.
+// If you don't want to wrap with directory leave it empty
+$wrappedDirectory = 'dirr';
+
+// It will return true or false to endUploadSession depending on whether the directoryPath is set.
+$wrapWithDirectory = !empty($wrappedDirectory);
 
 // Read all files from the directory
 $files = array_diff(scandir($dirPath), array('.', '..'));
