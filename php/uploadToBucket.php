@@ -1,5 +1,5 @@
 <?php
-include '../apillon.php';
+include './apillon.php';
 
 // Directory containing the files to be uploaded
 $dirPath = 'files';
