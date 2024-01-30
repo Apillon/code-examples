@@ -63,7 +63,7 @@ def list_bucket_content(bucket_uuid):
 bucket_uuid = create_new_bucket()
 list_buckets()
 
-file_path = os.path.join(os.path.dirname(__file__), 'file-to-upload.txt')
+file_path = os.path.join(os.path.dirname(__file__), '../files/', 'file-to-upload.txt')
 upload_to_bucket(bucket_uuid, "file.txt", file_path)
 
 list_bucket_content(bucket_uuid)

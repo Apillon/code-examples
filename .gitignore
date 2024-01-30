@@ -473,3 +473,4 @@ composer.lock
 *.sass.map
 *.scss.map
 .env
+obj/
