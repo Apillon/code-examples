@@ -30,7 +30,7 @@ class Program
     }
 
     // Pretty print the data from the response
-    static async Task PrettyPrint(IRestResponse response)
+    static void PrettyPrint(IRestResponse response)
     {
         var parsedJson = JObject.Parse(response.Content);
         Console.WriteLine(JsonConvert.SerializeObject(parsedJson["data"], Formatting.Indented));
@@ -41,7 +41,7 @@ class Program
         Console.WriteLine("Listing Buckets...");
         var request = new RestRequest(Method.GET);
         var response = await client.ExecuteAsync(request);
-        await PrettyPrint(response);
+        PrettyPrint(response);
     }
 
     static async Task<string> CreateNewBucket()
@@ -98,6 +98,6 @@ class Program
     {
         var request = new RestRequest($"{bucket_uuid}/content", Method.GET);
         var response = await client.ExecuteAsync(request);
-        await PrettyPrint(response);
+        PrettyPrint(response);
     }
 }

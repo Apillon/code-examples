@@ -75,7 +75,7 @@ python3 apillon-storage.py
 5. Run the project using the .NET CLI:
 
 ```bash
-dotnet  run
+dotnet run Apillon-Storage.cs
 ```
 
 **Notes**
