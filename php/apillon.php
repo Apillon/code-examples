@@ -84,7 +84,7 @@ function callAPI($method, $url, $data = false, $authorization) {
 
 // Upload to bucket
 function uploadToBucket(
-  $fileData, 
+  $fileData,
   $path = '',
   $wrapWithDirectory = false,
   $directoryPath = ''
@@ -115,7 +115,7 @@ function uploadToBucket(
     }
 
     // Prepare the POST request
-    $url = "https://api.apillon.io/storage/$bucketUuid/upload";
+    $url = "https://api.apillon.io/storage/buckets/$bucketUuid/upload";
     $postData = ['files' => $files];
 
     // Call API to start the upload session
@@ -148,7 +148,7 @@ function uploadToBucket(
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_INFILE, fopen($filePath, 'r'));
             curl_setopt($ch, CURLOPT_INFILESIZE, filesize($filePath));
-            
+
             // Execute the upload and close the session
             $uploadResponse = json_decode(curl_exec($ch), true);
             curl_close($ch);
@@ -166,7 +166,7 @@ function uploadToBucket(
         endUploadSession(
             $sessionUuid,
             $authorization,
-            $bucketUuid, 
+            $bucketUuid,
             $wrapWithDirectory,
             $directoryPath
         );
@@ -185,28 +185,28 @@ function uploadToBucket(
 
 // End upload session
 function endUploadSession(
-  $sessionUuid, 
+  $sessionUuid,
   $authorization,
   $bucketUuid,
   $wrapWithDirectory = false,
   $directoryPath = ''
 ) {
-    $url = "https://api.apillon.io/storage/$bucketUuid/upload/$sessionUuid/end";
+    $url = "https://api.apillon.io/storage/buckets/$bucketUuid/upload/$sessionUuid/end";
     $data = [
         'wrapWithDirectory' => $wrapWithDirectory,
         'directoryPath' => $directoryPath
     ];
-    
+
     return callAPI('POST', $url, $data, $authorization);
 }
 
 // Get bucket content
 function getBucketContent(
-    $search = null, 
-    $directoryId = null, 
-    $page = null, 
-    $limit = null, 
-    $orderBy = null, 
+    $search = null,
+    $directoryId = null,
+    $page = null,
+    $limit = null,
+    $orderBy = null,
     $desc = null
 ) {
     global $authorization, $bucketUuid;
@@ -220,11 +220,11 @@ function getBucketContent(
     if ($orderBy !== null) $queryParams['orderBy'] = $orderBy;
     if ($desc !== null) $queryParams['desc'] = $desc;
 
-    $url = "https://api.apillon.io/storage/$bucketUuid/content";
-    
+    $url = "https://api.apillon.io/storage/buckets/$bucketUuid/content";
+
     // Make the API call
     $response = callAPI('GET', $url, $queryParams, $authorization);
-    
+
     // Check for errors
     if (isset($response->error)) {
         // Handle the error here
@@ -244,8 +244,8 @@ function getBucketContent(
 
 
 // Get file details
-function getFileDetails($fileId, $authorization, $bucketUuid) {
-    $url = "https://api.apillon.io/storage/$bucketUuid/file/$fileId/detail";
+function getFileDetails($fileUuid, $authorization, $bucketUuid) {
+    $url = "https://api.apillon.io/storage/buckets/$bucketUuid/files/$fileUuid/";
 
     return callAPI('GET', $url, false, $authorization);
 }
