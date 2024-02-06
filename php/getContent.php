@@ -1,5 +1,5 @@
 <?php
-include '../apillon.php';
+include './apillon.php';
 
 $result = getBucketContent();
 if ($result !== null) {
